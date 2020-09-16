@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Palce.cs" />
     <Compile Include="Jewel.cs" />
     <Compile Include="Dirt.cs" />
     <Compile Include="Robot.cs" />
