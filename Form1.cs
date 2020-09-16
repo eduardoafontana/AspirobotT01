@@ -15,6 +15,13 @@ namespace AspirobotT01
         public Form1()
         {
             InitializeComponent();
+
+            Engine.Start();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Engine.Stop();
         }
     }
 }
