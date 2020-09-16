@@ -8,23 +8,32 @@ namespace AspirobotT01
 {
     public class Engine
     {
-        private static Thread environment = null;
-        private static Thread robot = null;
+        private static Thread environmentThread = null;
+        private static Thread robotThread = null;
+
+        public static Environment environment;
+        public static Robot robot;
+
+        internal static void Init()
+        {
+            environment = new Environment();
+            robot = new Robot();
+
+            environmentThread = new Thread(new ThreadStart(EnvironmentLoop));
+            robotThread = new Thread(new ThreadStart(RobotLoop));
+        }
 
         internal static void Start()
         {
-            environment = new Thread(new ThreadStart(EnvironmentLoop));
-            robot = new Thread(new ThreadStart(RobotLoop));
-
-            environment.Start();
-            robot.Start();
+            environmentThread.Start();
+            robotThread.Start();
         }
 
         private static void EnvironmentLoop()
         {
             while(true)
             {
-                Environment.Execute();
+                environment.Execute();
             }
         }
 
@@ -32,17 +41,17 @@ namespace AspirobotT01
         {
             while (true)
             {
-                Robot.Execute();
+                robot.Execute();
             }
         }
 
         internal static void Stop()
         {
-            if (environment != null)
-                environment.Abort();
+            if (environmentThread != null)
+                environmentThread.Abort();
 
-            if (robot != null)
-                robot.Abort();
+            if (robotThread != null)
+                robotThread.Abort();
         }
     }
 }

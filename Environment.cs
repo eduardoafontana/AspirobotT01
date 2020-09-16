@@ -8,11 +8,27 @@ namespace AspirobotT01
 {
     public class Environment
     {
-        internal static void Execute()
-        {
-            Console.WriteLine("enviroment");
+        public delegate void OpeningDoor(string count);
+        public event OpeningDoor RaiseDoorOpening;
 
-            Thread.Sleep(100);
+        private int counter = 0;
+
+        internal void Execute()
+        {
+            counter++;
+
+            RaiseDoorOpening(counter.ToString());
+
+            //Console.WriteLine("enviroment");
+            Thread.Sleep(1000);
+
+            //if (shouldThereBeANewDirtySpace())
+            //    GenerateDirt();
+
+            //if (shouldThereBeANewLostJewel())
+            //    GenerateJewel();
+
+
         }
     }
 }
