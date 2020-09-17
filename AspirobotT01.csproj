@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="Palce.cs" />
+    <Compile Include="Place.cs" />
     <Compile Include="Jewel.cs" />
     <Compile Include="Dirty.cs" />
     <Compile Include="Robot.cs" />
@@ -103,6 +103,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\jewel3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\robot.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

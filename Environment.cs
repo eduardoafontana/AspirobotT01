@@ -8,8 +8,8 @@ namespace AspirobotT01
 {
     public class Environment
     {
-        public delegate void AddingElementActuator(List<Place> places, int position);
-        public event AddingElementActuator RaiseAddElement;
+        public delegate void ChangingEnvironmentActuator(List<Place> places, int position);
+        public event ChangingEnvironmentActuator RaiseChangeEnvironment;
 
         private List<Place> places = new List<Place>();
         private Random random = new Random();
@@ -23,14 +23,19 @@ namespace AspirobotT01
             }
         }
 
+        internal void AddRobotInEnvironment()
+        {
+            Engine.robot.RaiseMoveRobot += new Robot.MovingRobotActuator(environmentSensor_OnRobotMove);
+        }
+
         internal void Execute()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
 
-            if (shouldThereBeANewDirtySpace())
+            if (ShouldThereBeANewDirtySpace())
                 GenerateDirt();
 
-            if (shouldThereBeANewLostJewel())
+            if (ShouldThereBeANewLostJewel())
                 GenerateJewel();
         }
 
@@ -38,10 +43,10 @@ namespace AspirobotT01
         {
             places[currentRandomPosition].element = new Jewel();
 
-            RaiseAddElement(places, currentRandomPosition);
+            RaiseChangeEnvironment(places, currentRandomPosition);
         }
 
-        private bool shouldThereBeANewLostJewel()
+        private bool ShouldThereBeANewLostJewel()
         {
             currentRandomPosition = random.Next(0, Config.environmentSize);
 
@@ -59,10 +64,10 @@ namespace AspirobotT01
         {
             places[currentRandomPosition].element = new Dirty();
 
-            RaiseAddElement(places, currentRandomPosition);
+            RaiseChangeEnvironment(places, currentRandomPosition);
         }
 
-        private bool shouldThereBeANewDirtySpace()
+        private bool ShouldThereBeANewDirtySpace()
         {
             currentRandomPosition = random.Next(0, Config.environmentSize);
 
@@ -72,6 +77,18 @@ namespace AspirobotT01
             return false;
 
             //TODO: Does a position have just one element as dirty or jewel or could have these two elements in the same time?
+        }
+
+        private void environmentSensor_OnRobotMove(Robot robot, int position)
+        {
+            int currentIndex = places.FindIndex(p => p.element != null && p.element.GetType() == robot.GetType());
+
+            if (currentIndex >= 0)
+                places[currentIndex].element = null;
+
+            places[position].element = robot;
+
+            RaiseChangeEnvironment(places, currentRandomPosition);
         }
     }
 }

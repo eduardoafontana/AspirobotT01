@@ -26,13 +26,12 @@ namespace AspirobotT01
 
             Engine.Init();
 
-            Engine.environment.RaiseAddElement += new Environment.AddingElementActuator(environment_OnAddElement);
-            Engine.robot.RaiseDoorOpening += new Robot.OpeningDoor(door_OnDoorOpeningRobot);
+            Engine.environment.RaiseChangeEnvironment += new Environment.ChangingEnvironmentActuator(presentation_OnEnvironmentChange);
 
             Engine.Start();
         }
 
-        private void environment_OnAddElement(List<Place> places, int position)
+        private void presentation_OnEnvironmentChange(List<Place> places, int position)
         {
             Invoke(new Action(() =>
             {
@@ -72,16 +71,6 @@ namespace AspirobotT01
                 }
 
                 label3.Text = place;
-            }));
-        }
-
-        private void door_OnDoorOpeningRobot(string count)
-        {
-            Console.WriteLine("robot event");
-
-            Invoke(new Action(() =>
-            {
-                label2.Text = count;
             }));
         }
 

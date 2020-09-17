@@ -6,20 +6,51 @@ using System.Threading.Tasks;
 
 namespace AspirobotT01
 {
-    public class Robot
+    public class Robot : IElement
     {
-        public delegate void OpeningDoor(string count);
-        public event OpeningDoor RaiseDoorOpening;
+        public delegate void MovingRobotActuator(Robot robot, int position);
+        public event MovingRobotActuator RaiseMoveRobot;
 
-        private int counter = 0;
+        //TODO: actuator spire dirty
+
+        public string ImagePath { get; set; }
+
+        private Place place;
+        private int positionWhereRobotIs = 0;
+        //private Random random = new Random();
+
+        public Robot()
+        {
+            ImagePath = "Assets\\robot.png";
+
+            Engine.environment.RaiseChangeEnvironment += new Environment.ChangingEnvironmentActuator(robotSensor_OnEnvironmentChange);
+        }
+
+        private void robotSensor_OnEnvironmentChange(List<Place> places, int position)
+        {
+            place = places[positionWhereRobotIs];
+        }
 
         internal void Execute()
         {
-            counter++;
+            //RaiseDoorOpening(counter.ToString());
 
-            RaiseDoorOpening(counter.ToString());
+            Thread.Sleep(1000);
 
-            Thread.Sleep(200);
+            //ObserveEnvironmentWithAllMySensors();
+            //UpdateMyState();
+            //ChooseAnAction();
+            JustDoIt();
+        }
+
+        private void JustDoIt()
+        {
+            RaiseMoveRobot(this, positionWhereRobotIs);
+
+            positionWhereRobotIs++;
+
+            if (positionWhereRobotIs >= Config.environmentSize)
+                positionWhereRobotIs = 0;
         }
     }
 }
