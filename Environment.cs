@@ -30,8 +30,8 @@ namespace AspirobotT01
             if (shouldThereBeANewDirtySpace())
                 GenerateDirt();
 
-            //if (shouldThereBeANewLostJewel())
-            //    GenerateJewel();
+            if (shouldThereBeANewLostJewel())
+                GenerateJewel();
         }
 
         private void GenerateJewel()

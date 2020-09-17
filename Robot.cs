@@ -19,7 +19,6 @@ namespace AspirobotT01
 
             RaiseDoorOpening(counter.ToString());
 
-            //Console.WriteLine("enviroment");
             Thread.Sleep(200);
         }
     }

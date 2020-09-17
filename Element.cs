@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AspirobotT01
 {
-    public class Place
+    public interface IElement
     {
-        public Object element { get; set; }
+        string ImagePath { get; set; }
     }
 }

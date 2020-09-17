@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AspirobotT01
 {
-    public class Dirty
+    public class Place
     {
-
+        public IElement element { get; set; }
     }
 }

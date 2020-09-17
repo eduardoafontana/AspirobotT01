@@ -53,7 +53,10 @@ namespace AspirobotT01
                 {
                     if (item.element != null)
                     {
-                        tableLayoutPanel1.Controls.Find("element"+count.ToString(), false)[0].Visible = true;
+                        PictureBox picture = (PictureBox)tableLayoutPanel1.Controls.Find("element" + count.ToString(), false)[0];
+
+                        picture.ImageLocation = item.element.ImagePath;
+                        picture.Visible = true;
 
                         place = String.Format("{0}{1} -> {2}:{3}{4}", place, count, i, j, System.Environment.NewLine);
                     }
@@ -88,22 +91,22 @@ namespace AspirobotT01
 
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Gainsboro;
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel1.ColumnCount = Config.environmentDimension;
-            this.tableLayoutPanel1.RowCount = Config.environmentDimension;
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(placeSize, placeSize);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(30, 50);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.TabIndex = 2;
+            tableLayoutPanel1.BackColor = System.Drawing.Color.Gainsboro;
+            tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            tableLayoutPanel1.ColumnCount = Config.environmentDimension;
+            tableLayoutPanel1.RowCount = Config.environmentDimension;
+            tableLayoutPanel1.Size = new System.Drawing.Size(placeSize, placeSize);
+            tableLayoutPanel1.Location = new System.Drawing.Point(30, 50);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.TabIndex = 2;
 
             for (int i = 0; i < Config.environmentDimension; i++)
             {
-                this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, Config.environmentPlaceSize));
-                this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, Config.environmentPlaceSize));
+                tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, Config.environmentPlaceSize));
+                tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, Config.environmentPlaceSize));
             }
 
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(tableLayoutPanel1);
         }
 
         private void CreateEnvironmentElements()
@@ -113,14 +116,20 @@ namespace AspirobotT01
 
             for (int c = 0; c < Config.environmentSize; c++)
             {
-                Label label = new Label();
-                label.AutoSize = true;
-                label.Name = "element" + c.ToString();
-                label.Size = new System.Drawing.Size(35, 13);
-                label.Text = "A" + c.ToString();
-                label.Visible = false;
+                PictureBox pictureBox1 = new PictureBox();
+                ((ISupportInitialize)(pictureBox1)).BeginInit();
 
-                tableLayoutPanel1.Controls.Add(label, i, j);
+                pictureBox1.InitialImage = null;
+                pictureBox1.Location = new System.Drawing.Point(442, 20);
+                pictureBox1.Name = "element" + c.ToString();
+                pictureBox1.Size = new System.Drawing.Size(50, 50);
+                pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+                pictureBox1.TabIndex = 3;
+                pictureBox1.TabStop = false;
+                pictureBox1.Visible = false;
+
+                tableLayoutPanel1.Controls.Add(pictureBox1, i, j);
+                ((ISupportInitialize)(pictureBox1)).EndInit();
 
                 i++;
 
