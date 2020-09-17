@@ -33,8 +33,6 @@ namespace AspirobotT01
 
         internal void Execute()
         {
-            //RaiseDoorOpening(counter.ToString());
-
             Thread.Sleep(1000);
 
             //ObserveEnvironmentWithAllMySensors();
@@ -45,8 +43,12 @@ namespace AspirobotT01
 
         private void JustDoIt()
         {
+            //TODO: Here will be the spire dirty action too when it is necessary.
+
             RaiseMoveRobot(this, positionWhereRobotIs);
 
+
+            //TODO: this logic here will be inside action maybe
             positionWhereRobotIs++;
 
             if (positionWhereRobotIs >= Config.environmentSize)

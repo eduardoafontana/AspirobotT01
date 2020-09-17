@@ -12,11 +12,11 @@ using static AspirobotT01.Environment;
 
 namespace AspirobotT01
 {
-    public partial class Form1 : Form
+    public partial class Presentation : Form
     {
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
-        public Form1()
+        public Presentation()
         {
             InitializeComponent();
 
@@ -37,11 +37,6 @@ namespace AspirobotT01
             {
                 label1.Text = places.Where(x => x.element != null).Count().ToString();
 
-                foreach (Control item in tableLayoutPanel1.Controls)
-                {
-                    item.Visible = false;
-                }
-
                 int i = 0;
                 int j = 0;
                 int count = 0;
@@ -50,14 +45,18 @@ namespace AspirobotT01
 
                 foreach (var item in places)
                 {
+                    PictureBox picture = (PictureBox)tableLayoutPanel1.Controls.Find("element" + count.ToString(), false)[0];
+
                     if (item.element != null)
                     {
-                        PictureBox picture = (PictureBox)tableLayoutPanel1.Controls.Find("element" + count.ToString(), false)[0];
-
                         picture.ImageLocation = item.element.ImagePath;
                         picture.Visible = true;
 
                         place = String.Format("{0}{1} -> {2}:{3}{4}", place, count, i, j, System.Environment.NewLine);
+                    }
+                    else
+                    {
+                        picture.Visible = false;
                     }
 
                     count++;
@@ -130,7 +129,7 @@ namespace AspirobotT01
             }
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        private void Presentation_FormClosed(object sender, FormClosedEventArgs e)
         {
             Engine.Stop();
         }

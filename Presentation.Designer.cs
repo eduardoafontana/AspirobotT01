@@ -1,6 +1,6 @@
 ﻿namespace AspirobotT01
 {
-    partial class Form1
+    partial class Presentation
     {
         /// <summary>
         /// Required designer variable.
@@ -60,7 +60,7 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "label3";
             // 
-            // Form1
+            // Presentation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -70,10 +70,10 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "Presentation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Aspirobot T-0.1";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Presentation_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
