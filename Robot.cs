@@ -11,7 +11,8 @@ namespace AspirobotT01
         public delegate void MovingRobotActuator(Robot robot, int position);
         public event MovingRobotActuator RaiseMoveRobot;
 
-        //TODO: actuator spire dirty
+        public delegate void AspiringRobotActuator(int position);
+        public event AspiringRobotActuator AspireMoveRobot;
 
         public string ImagePath { get; set; }
 
@@ -43,10 +44,10 @@ namespace AspirobotT01
 
         private void JustDoIt()
         {
-            //TODO: Here will be the spire dirty action too when it is necessary.
+            AspireMoveRobot(positionWhereRobotIs);
+            //TODO: obviously this action will be placed in another location after.
 
             RaiseMoveRobot(this, positionWhereRobotIs);
-
 
             //TODO: this logic here will be inside action maybe
             positionWhereRobotIs++;

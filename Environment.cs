@@ -26,6 +26,7 @@ namespace AspirobotT01
         internal void AddRobotInEnvironment()
         {
             Engine.robot.RaiseMoveRobot += new Robot.MovingRobotActuator(environmentSensor_OnRobotMove);
+            Engine.robot.AspireMoveRobot += new Robot.AspiringRobotActuator(environmentSensor_OnRobotAspire);
         }
 
         internal void Execute()
@@ -41,7 +42,7 @@ namespace AspirobotT01
 
         private void GenerateJewel()
         {
-            places[currentRandomPosition].element = new Jewel();
+            places[currentRandomPosition].jewel = new Jewel();
 
             RaiseChangeEnvironment(places, currentRandomPosition);
         }
@@ -50,19 +51,17 @@ namespace AspirobotT01
         {
             currentRandomPosition = random.Next(0, Config.environmentSize);
 
-            if (places[currentRandomPosition].element == null)
+            if (places[currentRandomPosition].jewel == null)
                 return true;
 
             return false;
-
-            //TODO: Does a position have just one element as dirty or jewel or could have these two elements in the same time?
 
             //TODO: Add a logic for generate 1 jewel for x dirty.
         }
 
         private void GenerateDirt()
         {
-            places[currentRandomPosition].element = new Dirty();
+            places[currentRandomPosition].dirty = new Dirty();
 
             RaiseChangeEnvironment(places, currentRandomPosition);
         }
@@ -71,22 +70,27 @@ namespace AspirobotT01
         {
             currentRandomPosition = random.Next(0, Config.environmentSize);
 
-            if (places[currentRandomPosition].element == null)
+            if (places[currentRandomPosition].dirty == null)
                 return true;
 
             return false;
-
-            //TODO: Does a position have just one element as dirty or jewel or could have these two elements in the same time?
         }
 
         private void environmentSensor_OnRobotMove(Robot robot, int position)
         {
-            int currentIndex = places.FindIndex(p => p.element != null && p.element.GetType() == robot.GetType());
+            int currentIndex = places.FindIndex(p => p.robot != null && p.robot.GetType() == robot.GetType());
 
             if (currentIndex >= 0)
-                places[currentIndex].element = null;
+                places[currentIndex].robot = null;
 
-            places[position].element = robot;
+            places[position].robot = robot;
+
+            RaiseChangeEnvironment(places, currentRandomPosition);
+        }
+
+        private void environmentSensor_OnRobotAspire(int position)
+        {
+            places[position].dirty = null;
 
             RaiseChangeEnvironment(places, currentRandomPosition);
         }

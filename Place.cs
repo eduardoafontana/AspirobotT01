@@ -8,6 +8,8 @@ namespace AspirobotT01
 {
     public class Place
     {
-        public IElement element { get; set; }
+        public IElement dirty { get; set; }
+        public IElement jewel { get; set; }
+        public IElement robot { get; set; }
     }
 }
