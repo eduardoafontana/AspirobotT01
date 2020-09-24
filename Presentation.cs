@@ -27,11 +27,20 @@ namespace AspirobotT01
             Engine.Init();
 
             Engine.environment.RaiseChangeEnvironment += new Environment.ChangingEnvironmentActuator(presentation_OnEnvironmentChange);
+            Engine.robot.robotDisplay.RaiseDisplayRobot += new RobotDisplay.DisplayingRobotActuator(presentation_OnRobotDisplayChange);
 
             Engine.Start();
         }
 
-        private void presentation_OnEnvironmentChange(List<Place> places, int position)
+        private void presentation_OnRobotDisplayChange(RobotDisplay robotDisplay)
+        {
+            Invoke(new Action(() =>
+            {
+                lblElectricity.Text = robotDisplay.Electricity.ToString();
+            }));
+        }
+
+        private void presentation_OnEnvironmentChange(List<Place> places)
         {
             Invoke(new Action(() =>
             {
@@ -61,7 +70,7 @@ namespace AspirobotT01
                     if (item.dirty != null)
                     {
                         pictureDirty.ImageLocation = item.dirty.ImagePath;
-                        pictureDirty.Visible = true;   
+                        pictureDirty.Visible = true;
                     }
                     else
                     {

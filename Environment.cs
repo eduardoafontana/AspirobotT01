@@ -8,7 +8,7 @@ namespace AspirobotT01
 {
     public class Environment
     {
-        public delegate void ChangingEnvironmentActuator(List<Place> places, int position);
+        public delegate void ChangingEnvironmentActuator(List<Place> places);
         public event ChangingEnvironmentActuator RaiseChangeEnvironment;
 
         private List<Place> places = new List<Place>();
@@ -26,7 +26,7 @@ namespace AspirobotT01
         internal void AddRobotInEnvironment()
         {
             Engine.robot.RaiseMoveRobot += new Robot.MovingRobotActuator(environmentSensor_OnRobotMove);
-            Engine.robot.AspireMoveRobot += new Robot.AspiringRobotActuator(environmentSensor_OnRobotAspire);
+            Engine.robot.RaiseAspireRobot += new Robot.AspiringRobotActuator(environmentSensor_OnRobotAspire);
         }
 
         internal void Execute()
@@ -44,7 +44,7 @@ namespace AspirobotT01
         {
             places[currentRandomPosition].jewel = new Jewel();
 
-            RaiseChangeEnvironment(places, currentRandomPosition);
+            RaiseChangeEnvironment(places);
         }
 
         private bool ShouldThereBeANewLostJewel()
@@ -63,7 +63,7 @@ namespace AspirobotT01
         {
             places[currentRandomPosition].dirty = new Dirty();
 
-            RaiseChangeEnvironment(places, currentRandomPosition);
+            RaiseChangeEnvironment(places);
         }
 
         private bool ShouldThereBeANewDirtySpace()
@@ -85,14 +85,14 @@ namespace AspirobotT01
 
             places[position].robot = robot;
 
-            RaiseChangeEnvironment(places, currentRandomPosition);
+            RaiseChangeEnvironment(places);
         }
 
         private void environmentSensor_OnRobotAspire(int position)
         {
             places[position].dirty = null;
 
-            RaiseChangeEnvironment(places, currentRandomPosition);
+            RaiseChangeEnvironment(places);
         }
     }
 }

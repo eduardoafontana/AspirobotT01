@@ -12,22 +12,26 @@ namespace AspirobotT01
         public event MovingRobotActuator RaiseMoveRobot;
 
         public delegate void AspiringRobotActuator(int position);
-        public event AspiringRobotActuator AspireMoveRobot;
+        public event AspiringRobotActuator RaiseAspireRobot;
 
         public string ImagePath { get; set; }
+        public RobotDisplay robotDisplay { get; set; }
 
         private Place place;
         private int positionWhereRobotIs = 0;
+        private int electricity = 0;
+
         //private Random random = new Random();
 
         public Robot()
         {
             ImagePath = "Assets\\robot.png";
+            robotDisplay = new RobotDisplay();
 
             Engine.environment.RaiseChangeEnvironment += new Environment.ChangingEnvironmentActuator(robotSensor_OnEnvironmentChange);
         }
 
-        private void robotSensor_OnEnvironmentChange(List<Place> places, int position)
+        private void robotSensor_OnEnvironmentChange(List<Place> places)
         {
             place = places[positionWhereRobotIs];
         }
@@ -44,7 +48,7 @@ namespace AspirobotT01
 
         private void JustDoIt()
         {
-            AspireMoveRobot(positionWhereRobotIs);
+            RaiseAspireRobot(positionWhereRobotIs);
             //TODO: obviously this action will be placed in another location after.
 
             RaiseMoveRobot(this, positionWhereRobotIs);
@@ -54,6 +58,10 @@ namespace AspirobotT01
 
             if (positionWhereRobotIs >= Config.environmentSize)
                 positionWhereRobotIs = 0;
+
+            electricity++;
+
+            robotDisplay.UpdateDisplay(electricity);
         }
     }
 }
