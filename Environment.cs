@@ -27,6 +27,7 @@ namespace AspirobotT01
         {
             Engine.robot.RaiseMoveRobot += new Robot.MovingRobotActuator(environmentSensor_OnRobotMove);
             Engine.robot.RaiseAspireRobot += new Robot.AspiringRobotActuator(environmentSensor_OnRobotAspire);
+            Engine.robot.RaiseCollectRobot += new Robot.CollectingRobotActuator(environmentSensor_OnRobotCollect);
         }
 
         internal void Execute()
@@ -91,6 +92,13 @@ namespace AspirobotT01
         private void environmentSensor_OnRobotAspire(int position)
         {
             places[position].dirty = null;
+
+            RaiseChangeEnvironment(places);
+        }
+
+        private void environmentSensor_OnRobotCollect(int position)
+        {
+            places[position].jewel = null;
 
             RaiseChangeEnvironment(places);
         }

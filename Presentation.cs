@@ -37,6 +37,9 @@ namespace AspirobotT01
             Invoke(new Action(() =>
             {
                 lblElectricity.Text = robotDisplay.Electricity.ToString();
+                lblDirty.Text = robotDisplay.Dirty.ToString();
+                lblJewel.Text = robotDisplay.Jewel.ToString();
+                lblPenitence.Text = robotDisplay.Penitence.ToString();
             }));
         }
 

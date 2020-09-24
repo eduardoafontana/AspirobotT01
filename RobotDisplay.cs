@@ -12,10 +12,16 @@ namespace AspirobotT01
         public event DisplayingRobotActuator RaiseDisplayRobot;
 
         public int Electricity { get; set; }
+        public int Dirty { get; set; }
+        public int Jewel { get; set; }
+        public int Penitence { get; set; }
 
-        internal void UpdateDisplay(int electricity)
+        internal void UpdateDisplay(int electricity, int dirty, int jewel, int penitence)
         {
             this.Electricity = electricity;
+            this.Dirty = dirty;
+            this.Jewel = jewel;
+            this.Penitence = penitence;
 
             RaiseDisplayRobot(this);
         }
