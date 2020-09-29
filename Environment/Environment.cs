@@ -32,7 +32,7 @@ namespace AspirobotT01
 
         internal void Execute()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
 
             if (ShouldThereBeANewDirtySpace())
                 GenerateDirt();
@@ -57,7 +57,7 @@ namespace AspirobotT01
 
             return false;
 
-            //TODO: Add a logic for generate 1 jewel for x dirty.
+            //TODO: Add a logic for generate 1 jewel for N dirty generated, not obligatory.
         }
 
         private void GenerateDirt()

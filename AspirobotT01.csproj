@@ -46,13 +46,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Element.cs" />
-    <Compile Include="RobotDisplay.cs" />
-    <Compile Include="Place.cs" />
-    <Compile Include="Jewel.cs" />
-    <Compile Include="Dirty.cs" />
-    <Compile Include="Robot.cs" />
-    <Compile Include="Environment.cs" />
+    <Compile Include="Environment\Element.cs" />
+    <Compile Include="Robot\Explorer.cs" />
+    <Compile Include="Robot\Actions.cs" />
+    <Compile Include="Robot\Knowledge.cs" />
+    <Compile Include="Robot\Intention.cs" />
+    <Compile Include="Robot\PerceptionNode.cs" />
+    <Compile Include="Robot\State.cs" />
+    <Compile Include="Robot\InternalState.cs" />
+    <Compile Include="Robot\RobotDisplay.cs" />
+    <Compile Include="Environment\Place.cs" />
+    <Compile Include="Environment\Jewel.cs" />
+    <Compile Include="Environment\Dirty.cs" />
+    <Compile Include="Robot\Robot.cs" />
+    <Compile Include="Environment\Environment.cs" />
     <Compile Include="Presentation.cs">
       <SubType>Form</SubType>
     </Compile>

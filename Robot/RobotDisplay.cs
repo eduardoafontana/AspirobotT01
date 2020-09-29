@@ -16,13 +16,8 @@ namespace AspirobotT01
         public int Jewel { get; set; }
         public int Penitence { get; set; }
 
-        internal void UpdateDisplay(int electricity, int dirty, int jewel, int penitence)
+        internal void UpdateDisplay()
         {
-            this.Electricity = electricity;
-            this.Dirty = dirty;
-            this.Jewel = jewel;
-            this.Penitence = penitence;
-
             RaiseDisplayRobot(this);
         }
     }
