@@ -25,8 +25,6 @@ namespace AspirobotT01
 
         private InternalState internalState = new InternalState();
 
-        private int positionWhereRobotIs = 0;
-
         private List<IntentionAction> actionPlan = new List<IntentionAction>();
 
         public Robot()
@@ -79,9 +77,9 @@ namespace AspirobotT01
             if (actionPlan.Count() > 0)
                 return;
 
-            Explorer explorer = new Explorer(internalState);
+            Explorer explorer = new Explorer();
 
-            actionPlan = explorer.Execute_DeepSearchLimited_Algorithme(positionWhereRobotIs);
+            actionPlan = explorer.Execute_DeepSearchLimited_Algorithme(internalState);
         }
 
         private void JustDoIt()
@@ -89,32 +87,32 @@ namespace AspirobotT01
             if (actionPlan.Count() == 0)
                 return;
 
-            positionWhereRobotIs = actionPlan.First().Position;
+            internalState.PositionWhereRobotIs = actionPlan.First().Position;
 
             switch (actionPlan.First().Action)
             {
                 case Actions.MoveUp:
-                    RaiseMoveRobot(this, positionWhereRobotIs);
+                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.MoveDown:
-                    RaiseMoveRobot(this, positionWhereRobotIs);
+                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.MoveLeft:
-                    RaiseMoveRobot(this, positionWhereRobotIs);
+                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.MoveRight:
-                    RaiseMoveRobot(this, positionWhereRobotIs);
+                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.Aspire:
                     robotDisplay.Dirty++;
 
-                    RaiseAspireRobot(positionWhereRobotIs);
+                    RaiseAspireRobot(internalState.PositionWhereRobotIs);
                     break;
                 case Actions.Collect:
                     robotDisplay.Penitence++;
                     robotDisplay.Jewel++;
 
-                    RaiseCollectRobot(positionWhereRobotIs);
+                    RaiseCollectRobot(internalState.PositionWhereRobotIs);
                     break;
             }
 

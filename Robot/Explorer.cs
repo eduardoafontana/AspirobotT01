@@ -11,17 +11,14 @@ namespace AspirobotT01
         private List<Intention> intentions = new List<Intention>();
         private InternalState internalState;
 
-        public Explorer(InternalState internalState)
+        internal List<IntentionAction> Execute_DeepSearchLimited_Algorithme(InternalState internalState)
         {
             this.internalState = internalState;
-        }
 
-        internal List<IntentionAction> Execute_DeepSearchLimited_Algorithme(int positionWhereRobotIs)
-        {
             //Clean old intentions
             intentions.Clear();
 
-            Knowledge nodeWhereRobotIs = internalState.Beliefs.Where(n => n.Position == positionWhereRobotIs).First();
+            Knowledge nodeWhereRobotIs = internalState.Beliefs.Where(n => n.Position == internalState.PositionWhereRobotIs).First();
 
             Intention intention = new Intention();
 
@@ -38,7 +35,7 @@ namespace AspirobotT01
 
             intentions.Add(intention);
 
-            DeepSearchLimited(positionWhereRobotIs, new List<int>(), intention);
+            DeepSearchLimited(internalState.PositionWhereRobotIs, new List<int>(), intention);
 
             //If there is no plan of intent that contains dirt, then return an empty plan and continue exploration in the next cycle, realizing the environment again.
             //TODO: change after jewel logic

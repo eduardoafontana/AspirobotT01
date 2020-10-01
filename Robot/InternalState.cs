@@ -32,6 +32,8 @@ namespace AspirobotT01
     {
         public List<Knowledge> Beliefs = new List<Knowledge>();
 
+        public int PositionWhereRobotIs = 0;
+
         public void CreateInitialState()
         {
             int i = 0;
