@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace AspirobotT01
 {
-    public class Node
+    public class Knowledge
     {
         public int Position { get; set; }
-        public int PositionLinkedNode { get; set; }
+        public int PositionLinkedKnowledge { get; set; }
         public State State { get; set; }
         public Actions Action { get; set; }
 
         public int IndexI { get; set; }
         public int IndexJ { get; set; }
 
-        public Node(int position, int positionLinkedNode, State state, Actions action, int indexI, int indexJ)
+        public Knowledge(int position, int positionLinkedKnowledge, State state, Actions action, int indexI, int indexJ)
         {
             this.Position = position;
-            this.PositionLinkedNode = positionLinkedNode;
+            this.PositionLinkedKnowledge = positionLinkedKnowledge;
             this.State = state;
             this.Action = action;
 
@@ -30,7 +30,7 @@ namespace AspirobotT01
 
     public class InternalState
     {
-        public List<Node> Map = new List<Node>();
+        public List<Knowledge> Beliefs = new List<Knowledge>();
 
         public void CreateInitialState()
         {
@@ -46,30 +46,30 @@ namespace AspirobotT01
 
                 if (rightNode < Config.environmentDimension)
                 {
-                    int linkedNodePosition = (Config.environmentDimension * j) + rightNode;
+                    int linkedKnowledgePosition = (Config.environmentDimension * j) + rightNode;
 
-                    Map.Add(new Node(c, linkedNodePosition, State.Empty, Actions.MoveRight, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveRight, i, j));
                 }
 
                 if (bottomNode < Config.environmentDimension)
                 {
-                    int linkedNodePosition = (Config.environmentDimension * bottomNode) + i;
+                    int linkedKnowledgePosition = (Config.environmentDimension * bottomNode) + i;
 
-                    Map.Add(new Node(c, linkedNodePosition, State.Empty, Actions.MoveDown, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveDown, i, j));
                 }
 
                 if (leftNode >= 0)
                 {
-                    int linkedNodePosition = (Config.environmentDimension * j) + leftNode;
+                    int linkedKnowledgePosition = (Config.environmentDimension * j) + leftNode;
 
-                    Map.Add(new Node(c, linkedNodePosition, State.Empty, Actions.MoveLeft, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveLeft, i, j));
                 }
 
                 if (topNode >= 0)
                 {
-                    int linkedNodePosition = (Config.environmentDimension * topNode) + i;
+                    int linkedKnowledgePosition = (Config.environmentDimension * topNode) + i;
 
-                    Map.Add(new Node(c, linkedNodePosition, State.Empty, Actions.MoveUp, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveUp, i, j));
                 }
 
                 i++;
@@ -79,6 +79,28 @@ namespace AspirobotT01
                     i = 0;
                     j++;
                 }
+            }
+        }
+
+        internal void UpdateInteralState(List<Place> observedEnvironmentState)
+        {
+            for (int i = 0; i < observedEnvironmentState.Count(); i++)
+            {
+                Place place = observedEnvironmentState[i];
+
+                State newState = State.Empty;
+
+                if (place.jewel == null && place.dirty == null)
+                    newState = State.Empty;
+                else if (place.jewel != null && place.dirty == null)
+                    newState = State.Jewel;
+                else if (place.jewel == null && place.dirty != null)
+                    newState = State.Dirty;
+                else if (place.jewel != null && place.dirty != null)
+                    newState = State.DirtyAndJewel;
+
+                foreach (Knowledge node in Beliefs.Where(n => n.Position == i))
+                    node.State = newState;
             }
         }
     }

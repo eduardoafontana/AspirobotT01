@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace AspirobotT01
 {
-    public class Knowledge
+    public class Intention
     {
-        public List<Perception> KnowledgeBranch { get; set; }
+        public List<Perception> IntentionBranch { get; set; }
 
-        public Knowledge()
+        public Intention()
         {
-            KnowledgeBranch = new List<Perception>();
+            IntentionBranch = new List<Perception>();
         }
 
-        public Knowledge(Knowledge oldKnowledge)
+        public Intention(Intention oldIntention)
         {
-            KnowledgeBranch = oldKnowledge.KnowledgeBranch.Select(o => new Perception(o)).ToList();
+            IntentionBranch = oldIntention.IntentionBranch.Select(o => new Perception(o)).ToList();
         }
     }
 }

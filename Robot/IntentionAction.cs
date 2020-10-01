@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AspirobotT01
 {
-    public class Intention
+    public class IntentionAction
     {
         public Actions Action { get; set; }
         public int Position { get; set; }
