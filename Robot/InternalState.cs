@@ -11,17 +11,17 @@ namespace AspirobotT01
         public int Position { get; set; }
         public int PositionLinkedKnowledge { get; set; }
         public State State { get; set; }
-        public Actions Action { get; set; }
+        public Movements Movement { get; set; }
 
         public int IndexI { get; set; }
         public int IndexJ { get; set; }
 
-        public Knowledge(int position, int positionLinkedKnowledge, State state, Actions action, int indexI, int indexJ)
+        public Knowledge(int position, int positionLinkedKnowledge, State state, Movements movement, int indexI, int indexJ)
         {
             this.Position = position;
             this.PositionLinkedKnowledge = positionLinkedKnowledge;
             this.State = state;
-            this.Action = action;
+            this.Movement = movement;
 
             this.IndexI = indexI;
             this.IndexJ = indexJ;
@@ -50,28 +50,28 @@ namespace AspirobotT01
                 {
                     int linkedKnowledgePosition = (Config.environmentDimension * j) + rightNode;
 
-                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveRight, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Movements.MoveRight, i, j));
                 }
 
                 if (bottomNode < Config.environmentDimension)
                 {
                     int linkedKnowledgePosition = (Config.environmentDimension * bottomNode) + i;
 
-                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveDown, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Movements.MoveDown, i, j));
                 }
 
                 if (leftNode >= 0)
                 {
                     int linkedKnowledgePosition = (Config.environmentDimension * j) + leftNode;
 
-                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveLeft, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Movements.MoveLeft, i, j));
                 }
 
                 if (topNode >= 0)
                 {
                     int linkedKnowledgePosition = (Config.environmentDimension * topNode) + i;
 
-                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Actions.MoveUp, i, j));
+                    Beliefs.Add(new Knowledge(c, linkedKnowledgePosition, State.Empty, Movements.MoveUp, i, j));
                 }
 
                 i++;

@@ -8,53 +8,52 @@ namespace AspirobotT01
 {
     public class Explorer
     {
-        private List<Intention> intentions = new List<Intention>();
+        private List<Prevision> previsionCollection = new List<Prevision>();
         private InternalState internalState;
 
-        internal List<IntentionAction> Execute_DeepSearchLimited_Algorithme(InternalState internalState)
+        internal List<Intention> Execute_DeepSearchLimited_Algorithme(InternalState internalState)
         {
             this.internalState = internalState;
 
-            //Clean old intentions
-            intentions.Clear();
+            previsionCollection.Clear();
 
             Knowledge nodeWhereRobotIs = internalState.Beliefs.Where(n => n.Position == internalState.PositionWhereRobotIs).First();
 
-            Intention intention = new Intention();
+            Prevision prevision = new Prevision();
 
             if (nodeWhereRobotIs.State == State.Dirty || nodeWhereRobotIs.State == State.DirtyAndJewel)
             {
-                Perception perception = new Perception();
-                perception.Action = Actions.Aspire;
-                perception.DesireState = State.Dirty;
-                perception.ElectricityCost = 1;
-                perception.Position = nodeWhereRobotIs.Position;
+                PrevisionAction previsionAction = new PrevisionAction();
+                previsionAction.Action = Actions.Aspire;
+                previsionAction.DesireState = State.Dirty;
+                previsionAction.ElectricityCost = 1;
+                previsionAction.Position = nodeWhereRobotIs.Position;
 
-                intention.IntentionBranch.Add(perception);
+                prevision.PrevisionBranch.Add(previsionAction);
             }
 
-            intentions.Add(intention);
+            previsionCollection.Add(prevision);
 
-            DeepSearchLimited(internalState.PositionWhereRobotIs, new List<int>(), intention);
+            DeepSearchLimited(internalState.PositionWhereRobotIs, new List<int>(), prevision);
 
             //If there is no plan of intent that contains dirt, then return an empty plan and continue exploration in the next cycle, realizing the environment again.
             //TODO: change after jewel logic
-            if (!intentions.Any(k => k.IntentionBranch.Any(p => p.DesireState == State.Dirty || p.DesireState == State.DirtyAndJewel)))
-                new List<IntentionAction>();
+            if (!previsionCollection.Any(k => k.PrevisionBranch.Any(p => p.DesireState == State.Dirty || p.DesireState == State.DirtyAndJewel)))
+                new List<Intention>();
 
             //The objective is achieved here. Choose the belief with more dirt that consumes less electricity.
-            Intention mostDirtyLessElectricityCost = intentions
-                .OrderByDescending(k => k.IntentionBranch.Where(p => p.DesireState == State.Dirty || p.DesireState == State.DirtyAndJewel).Count())
-                .ThenBy(k => k.IntentionBranch.Sum(p => p.ElectricityCost))
+            Prevision mostDirtyLessElectricityCost = previsionCollection
+                .OrderByDescending(k => k.PrevisionBranch.Where(p => p.DesireState == State.Dirty || p.DesireState == State.DirtyAndJewel).Count())
+                .ThenBy(k => k.PrevisionBranch.Sum(p => p.ElectricityCost))
                 .First();
 
-            List<IntentionAction> actionPlan = new List<IntentionAction>();
+            List<Intention> actionPlan = new List<Intention>();
 
-            foreach (Perception perception in mostDirtyLessElectricityCost.IntentionBranch)
+            foreach (PrevisionAction previsionAction in mostDirtyLessElectricityCost.PrevisionBranch)
             {
-                IntentionAction intentionAction = new IntentionAction();
-                intentionAction.Action = perception.Action;
-                intentionAction.Position = perception.Position;
+                Intention intentionAction = new Intention();
+                intentionAction.Action = previsionAction.Action;
+                intentionAction.Position = previsionAction.Position;
 
                 actionPlan.Add(intentionAction);
             }
@@ -62,41 +61,41 @@ namespace AspirobotT01
             return actionPlan;
         }
 
-        private void DeepSearchLimited(int positionToSearch, List<int> positionAlreadySearched, Intention currentKnowledge)
+        private void DeepSearchLimited(int positionToSearch, List<int> positionAlreadySearched, Prevision currentKnowledge)
         {
             List<Knowledge> nodesToDoPrevision = internalState.Beliefs.Where(n => n.Position == positionToSearch && !positionAlreadySearched.Contains(n.PositionLinkedKnowledge)).ToList();
 
             foreach (Knowledge knowledge in nodesToDoPrevision)
             {
-                Intention intention = new Intention(currentKnowledge);
+                Prevision prevision = new Prevision(currentKnowledge);
 
                 Knowledge nodeLinked = internalState.Beliefs.Where(n => n.Position == knowledge.PositionLinkedKnowledge).First();
 
-                Perception perceptionMove = new Perception();
-                perceptionMove.Action = knowledge.Action;
-                perceptionMove.DesireState = nodeLinked.State;
-                perceptionMove.ElectricityCost = 1;
-                perceptionMove.Position = knowledge.PositionLinkedKnowledge;
+                PrevisionAction previsionActionMove = new PrevisionAction();
+                previsionActionMove.Action = (Actions)knowledge.Movement;
+                previsionActionMove.DesireState = nodeLinked.State;
+                previsionActionMove.ElectricityCost = 1;
+                previsionActionMove.Position = knowledge.PositionLinkedKnowledge;
 
-                intention.IntentionBranch.Add(perceptionMove);
+                prevision.PrevisionBranch.Add(previsionActionMove);
 
                 if (nodeLinked.State == State.Dirty || nodeLinked.State == State.DirtyAndJewel)
                 {
-                    Perception perceptionClean = new Perception();
-                    perceptionClean.Action = Actions.Aspire;
-                    perceptionClean.DesireState = State.Empty;
-                    perceptionClean.ElectricityCost = 1;
-                    perceptionClean.Position = knowledge.PositionLinkedKnowledge;
+                    PrevisionAction previsionActionClean = new PrevisionAction();
+                    previsionActionClean.Action = Actions.Aspire;
+                    previsionActionClean.DesireState = State.Empty;
+                    previsionActionClean.ElectricityCost = 1;
+                    previsionActionClean.Position = knowledge.PositionLinkedKnowledge;
 
-                    intention.IntentionBranch.Add(perceptionClean);
+                    prevision.PrevisionBranch.Add(previsionActionClean);
                 }
 
-                intentions.Add(intention);
+                previsionCollection.Add(prevision);
 
                 List<int> newPositionAlreadySearched = new List<int>(positionAlreadySearched);
                 newPositionAlreadySearched.Add(positionToSearch);
 
-                DeepSearchLimited(knowledge.PositionLinkedKnowledge, newPositionAlreadySearched, intention);
+                DeepSearchLimited(knowledge.PositionLinkedKnowledge, newPositionAlreadySearched, prevision);
             }
         }
     }

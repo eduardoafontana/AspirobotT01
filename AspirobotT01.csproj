@@ -49,9 +49,9 @@
     <Compile Include="Environment\Element.cs" />
     <Compile Include="Robot\Explorer.cs" />
     <Compile Include="Robot\Actions.cs" />
-    <Compile Include="Robot\Knowledge.cs" />
-    <Compile Include="Robot\IntentionAction.cs" />
-    <Compile Include="Robot\Perception.cs" />
+    <Compile Include="Robot\Prevision.cs" />
+    <Compile Include="Robot\Intention.cs" />
+    <Compile Include="Robot\PrevisionAction.cs" />
     <Compile Include="Robot\State.cs" />
     <Compile Include="Robot\InternalState.cs" />
     <Compile Include="Robot\RobotDisplay.cs" />

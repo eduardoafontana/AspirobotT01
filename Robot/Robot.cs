@@ -25,7 +25,7 @@ namespace AspirobotT01
 
         private InternalState internalState = new InternalState();
 
-        private List<IntentionAction> actionPlan = new List<IntentionAction>();
+        private List<Intention> actionPlan = new List<Intention>();
 
         public Robot()
         {

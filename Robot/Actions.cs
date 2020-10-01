@@ -8,8 +8,17 @@ namespace AspirobotT01
 {
     public enum Actions
     {
+        MoveLeft,
+        MoveRight,
+        MoveUp,
+        MoveDown,
+
         Aspire,
         Collect,
+    }
+
+    public enum Movements
+    {
         MoveLeft,
         MoveRight,
         MoveUp,
