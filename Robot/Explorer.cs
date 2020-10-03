@@ -21,29 +21,38 @@ namespace AspirobotT01
 
             Prevision prevision = new Prevision();
 
-            if (nodeWhereRobotIs.State == State.Dirty || nodeWhereRobotIs.State == State.DirtyAndJewel)
+            if (nodeWhereRobotIs.State == State.Jewel)
             {
-                PrevisionAction previsionAction = new PrevisionAction();
-                previsionAction.Action = Actions.Aspire;
-                previsionAction.DesireState = State.Dirty;
-                previsionAction.ElectricityCost = 1;
-                previsionAction.Position = nodeWhereRobotIs.Position;
+                PrevisionAction previsionCollectJewel = new PrevisionAction();
+                previsionCollectJewel.Action = Actions.Collect;
+                previsionCollectJewel.DesireState = State.Empty;
+                previsionCollectJewel.ElectricityCost = 1;
+                previsionCollectJewel.Position = nodeWhereRobotIs.Position;
 
-                prevision.PrevisionBranch.Add(previsionAction);
+                prevision.PrevisionBranch.Add(previsionCollectJewel);
+            }
+            else if (nodeWhereRobotIs.State == State.Dirty || nodeWhereRobotIs.State == State.DirtyAndJewel)
+            {
+                PrevisionAction previsionCleanDirty = new PrevisionAction();
+                previsionCleanDirty.Action = Actions.Aspire;
+                previsionCleanDirty.DesireState = State.Empty;
+                previsionCleanDirty.ElectricityCost = 1;
+                previsionCleanDirty.Position = nodeWhereRobotIs.Position;
+
+                prevision.PrevisionBranch.Add(previsionCleanDirty);
             }
 
             previsionCollection.Add(prevision);
 
             DeepSearchLimited(internalState.PositionWhereRobotIs, new List<int>(), prevision);
 
-            //If there is no plan of intent that contains dirt, then return an empty plan and continue exploration in the next cycle, realizing the environment again.
-            //TODO: change after jewel logic
-            if (!previsionCollection.Any(k => k.PrevisionBranch.Any(p => p.DesireState == State.Dirty || p.DesireState == State.DirtyAndJewel)))
+            //If there is no action plan that contains dirt or jewel, then return an empty plan and continue exploration in the next cycle, realizing the environment again.
+            if (!previsionCollection.Any(k => k.PrevisionBranch.Any(p => p.Action == Actions.Aspire || p.Action == Actions.Collect)))
                 new List<Intention>();
 
             //The objective is achieved here. Choose the belief with more dirt that consumes less electricity.
             Prevision mostDirtyLessElectricityCost = previsionCollection
-                .OrderByDescending(k => k.PrevisionBranch.Where(p => p.DesireState == State.Dirty || p.DesireState == State.DirtyAndJewel).Count())
+                .OrderByDescending(k => k.PrevisionBranch.Where(p => p.Action == Actions.Aspire || p.Action == Actions.Collect).Count())
                 .ThenBy(k => k.PrevisionBranch.Sum(p => p.ElectricityCost))
                 .First();
 
@@ -79,7 +88,17 @@ namespace AspirobotT01
 
                 prevision.PrevisionBranch.Add(previsionActionMove);
 
-                if (nodeLinked.State == State.Dirty || nodeLinked.State == State.DirtyAndJewel)
+                if (nodeLinked.State == State.Jewel)
+                {
+                    PrevisionAction previsionCollectJewel = new PrevisionAction();
+                    previsionCollectJewel.Action = Actions.Collect;
+                    previsionCollectJewel.DesireState = State.Empty;
+                    previsionCollectJewel.ElectricityCost = 1;
+                    previsionCollectJewel.Position = knowledge.PositionLinkedKnowledge;
+
+                    prevision.PrevisionBranch.Add(previsionCollectJewel);
+                }
+                else if (nodeLinked.State == State.Dirty || nodeLinked.State == State.DirtyAndJewel)
                 {
                     PrevisionAction previsionActionClean = new PrevisionAction();
                     previsionActionClean.Action = Actions.Aspire;

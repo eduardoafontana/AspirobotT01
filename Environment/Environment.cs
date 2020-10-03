@@ -92,6 +92,7 @@ namespace AspirobotT01
         private void environmentSensor_OnRobotAspire(int position)
         {
             places[position].dirty = null;
+            places[position].jewel = null;
 
             RaiseChangeEnvironment(places);
         }

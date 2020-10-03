@@ -106,10 +106,12 @@ namespace AspirobotT01
                 case Actions.Aspire:
                     robotDisplay.Dirty++;
 
+                    if(observedEnvironmentState[internalState.PositionWhereRobotIs].jewel != null)
+                        robotDisplay.Penitence++;
+
                     RaiseAspireRobot(internalState.PositionWhereRobotIs);
                     break;
                 case Actions.Collect:
-                    robotDisplay.Penitence++;
                     robotDisplay.Jewel++;
 
                     RaiseCollectRobot(internalState.PositionWhereRobotIs);
