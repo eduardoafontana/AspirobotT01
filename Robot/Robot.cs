@@ -79,7 +79,10 @@ namespace AspirobotT01
 
             Explorer explorer = new Explorer();
 
-            actionPlan = explorer.Execute_DeepSearchLimited_Algorithme(internalState);
+            if (this.robotDisplay.Penitence < 5)
+                actionPlan = explorer.Execute_DeepSearchLimited_Algorithm(internalState);
+            else
+                actionPlan = explorer.Execute_BestFirstSearch_Algorithm(internalState);
         }
 
         private void JustDoIt()

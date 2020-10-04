@@ -56,8 +56,6 @@ namespace AspirobotT01
                 return true;
 
             return false;
-
-            //TODO: Add a logic for generate 1 jewel for N dirty generated, not obligatory.
         }
 
         private void GenerateDirt()

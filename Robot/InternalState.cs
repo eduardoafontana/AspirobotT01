@@ -12,6 +12,7 @@ namespace AspirobotT01
         public int PositionLinkedKnowledge { get; set; }
         public State State { get; set; }
         public Movements Movement { get; set; }
+        public int Cost { get; set; }
 
         public int IndexI { get; set; }
         public int IndexJ { get; set; }
