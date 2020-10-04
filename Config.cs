@@ -17,7 +17,7 @@ namespace AspirobotT01
         public static int countStepsToReplan = 4;
         public static int penitenceShed = 5;
 
-        public static int robotActionDelay = 50;
-        public static int environmentActionDelay = 300;
+        public static int robotActionDelay = 333;
+        public static int environmentActionDelay = 2000;
     }
 }
