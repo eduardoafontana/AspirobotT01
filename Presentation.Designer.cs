@@ -42,7 +42,7 @@
             // lblElectricity
             // 
             this.lblElectricity.AutoSize = true;
-            this.lblElectricity.Location = new System.Drawing.Point(629, 51);
+            this.lblElectricity.Location = new System.Drawing.Point(629, 28);
             this.lblElectricity.Name = "lblElectricity";
             this.lblElectricity.Size = new System.Drawing.Size(13, 13);
             this.lblElectricity.TabIndex = 0;
@@ -51,7 +51,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(567, 82);
+            this.label2.Location = new System.Drawing.Point(567, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 1;
@@ -60,7 +60,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(567, 51);
+            this.label3.Location = new System.Drawing.Point(567, 28);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 2;
@@ -69,7 +69,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(28, 51);
+            this.panel1.Location = new System.Drawing.Point(28, 28);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(511, 486);
             this.panel1.TabIndex = 3;
@@ -78,7 +78,7 @@
             // lblDirty
             // 
             this.lblDirty.AutoSize = true;
-            this.lblDirty.Location = new System.Drawing.Point(604, 82);
+            this.lblDirty.Location = new System.Drawing.Point(604, 55);
             this.lblDirty.Name = "lblDirty";
             this.lblDirty.Size = new System.Drawing.Size(13, 13);
             this.lblDirty.TabIndex = 4;
@@ -87,7 +87,7 @@
             // lblJewel
             // 
             this.lblJewel.AutoSize = true;
-            this.lblJewel.Location = new System.Drawing.Point(610, 109);
+            this.lblJewel.Location = new System.Drawing.Point(610, 82);
             this.lblJewel.Name = "lblJewel";
             this.lblJewel.Size = new System.Drawing.Size(13, 13);
             this.lblJewel.TabIndex = 6;
@@ -96,7 +96,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(567, 109);
+            this.label4.Location = new System.Drawing.Point(567, 82);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 5;
@@ -105,7 +105,7 @@
             // lblPenitence
             // 
             this.lblPenitence.AutoSize = true;
-            this.lblPenitence.Location = new System.Drawing.Point(631, 138);
+            this.lblPenitence.Location = new System.Drawing.Point(631, 110);
             this.lblPenitence.Name = "lblPenitence";
             this.lblPenitence.Size = new System.Drawing.Size(13, 13);
             this.lblPenitence.TabIndex = 8;
@@ -114,7 +114,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(567, 138);
+            this.label5.Location = new System.Drawing.Point(567, 110);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(58, 13);
             this.label5.TabIndex = 7;
@@ -124,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 590);
+            this.ClientSize = new System.Drawing.Size(706, 563);
             this.Controls.Add(this.lblPenitence);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblJewel);

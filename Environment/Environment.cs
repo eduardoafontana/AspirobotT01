@@ -32,7 +32,7 @@ namespace AspirobotT01
 
         internal void Execute()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(Config.environmentActionDelay);
 
             if (ShouldThereBeANewDirtySpace())
                 GenerateDirt();

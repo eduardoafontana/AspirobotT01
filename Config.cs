@@ -12,5 +12,12 @@ namespace AspirobotT01
         public static int environmentDimension = 5;
         public static int environmentPlaceSize = 100;
         public static int elementSize = 40;
+
+        public static int stepsToReplan = 7;
+        public static int countStepsToReplan = 4;
+        public static int penitenceShed = 5;
+
+        public static int robotActionDelay = 50;
+        public static int environmentActionDelay = 300;
     }
 }

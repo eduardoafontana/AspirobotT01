@@ -27,6 +27,9 @@ namespace AspirobotT01
 
         private List<Intention> actionPlan = new List<Intention>();
 
+        private int countStepForReplan = 0;
+        private bool replan = false;
+
         public Robot()
         {
             ImagePath = "Assets\\robot.png";
@@ -52,7 +55,7 @@ namespace AspirobotT01
 
         private void ObserveEnvironmentWithAllMySensors()
         {
-            if (actionPlan.Count() > 0)
+            if (actionPlan.Count() > 0 && !replan)
                 return;
 
             if (realTimeSensorPlace == null)
@@ -63,7 +66,7 @@ namespace AspirobotT01
 
         private void UpdateMyState()
         {
-            if (actionPlan.Count() > 0)
+            if (actionPlan.Count() > 0 && !replan)
                 return;
 
             if (observedEnvironmentState == null)
@@ -74,15 +77,20 @@ namespace AspirobotT01
 
         private void ChooseAnAction()
         {
-            if (actionPlan.Count() > 0)
+            if (actionPlan.Count() > 0 && !replan)
                 return;
 
             Explorer explorer = new Explorer();
 
-            if (this.robotDisplay.Penitence < 5)
+            if (this.robotDisplay.Penitence < Config.penitenceShed)
                 actionPlan = explorer.Execute_DeepSearchLimited_Algorithm(internalState);
             else
                 actionPlan = explorer.Execute_BestFirstSearch_Algorithm(internalState);
+
+            if (actionPlan.Count(p => p.Action != Actions.Aspire && p.Action != Actions.Collect) > Config.stepsToReplan)
+                countStepForReplan = 1;
+            else
+                countStepForReplan = 0;
         }
 
         private void JustDoIt()
@@ -121,13 +129,18 @@ namespace AspirobotT01
                     break;
             }
 
+            if (countStepForReplan >= 1)
+                countStepForReplan++;
+
+            replan = countStepForReplan > Config.countStepsToReplan;
+
             robotDisplay.Electricity++;
 
             robotDisplay.UpdateDisplay();
 
             actionPlan.RemoveAt(0);
 
-            Thread.Sleep(333);
+            Thread.Sleep(Config.robotActionDelay);
         }
     }
 }

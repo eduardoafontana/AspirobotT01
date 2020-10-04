@@ -47,18 +47,6 @@ namespace AspirobotT01
         {
             Invoke(new Action(() =>
             {
-                //label1.Text = places.Where(x => x.element != null).Count().ToString();
-                //int i = 0;
-                //int j = 0;
-                //place = String.Format("{0}{1} -> {2}:{3}{4}", place, count, i, j, System.Environment.NewLine);
-                //i++;
-                //if (i >= Config.environmentDimension)
-                //{
-                //    i = 0;
-                //    j++;
-                //}
-                //label3.Text = place;
-
                 int count = 0;
 
                 string place = String.Empty;
@@ -120,7 +108,7 @@ namespace AspirobotT01
             tableLayoutPanel1.ColumnCount = Config.environmentDimension;
             tableLayoutPanel1.RowCount = Config.environmentDimension;
             tableLayoutPanel1.Size = new System.Drawing.Size(placeSize + 10, placeSize + 10);
-            tableLayoutPanel1.Location = new System.Drawing.Point(30, 50);
+            tableLayoutPanel1.Location = new System.Drawing.Point(30, 28);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
 
             for (int e = 0; e < Config.environmentDimension; e++)
