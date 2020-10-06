@@ -40,6 +40,11 @@ namespace AspirobotT01
                 lblDirty.Text = robotDisplay.Dirty.ToString();
                 lblJewel.Text = robotDisplay.Jewel.ToString();
                 lblPenitence.Text = robotDisplay.Penitence.ToString();
+
+                lblStatus.Text = robotDisplay.Status;
+                lblActionCount.Text = robotDisplay.ActionCount.ToString();
+                lblEpisodicAverage.Text = robotDisplay.EpisodicAverage.ToString();
+                lblPerformance.Text = robotDisplay.Performance;
             }));
         }
 

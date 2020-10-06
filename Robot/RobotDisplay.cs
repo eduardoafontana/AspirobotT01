@@ -16,9 +16,28 @@ namespace AspirobotT01
         public int Jewel { get; set; }
         public int Penitence { get; set; }
 
+        public String Status { get; set; }
+        public int ActionCount { get; set; }
+        public int EpisodicAverage { get; set; }
+        public String Performance { get; set; }
+
         internal void UpdateDisplay()
         {
             RaiseDisplayRobot(this);
+        }
+
+        internal void UpdatePerformanceData(Learning learning)
+        {
+            Status = learning.HasToWait() ? "Wating" : "Executing";
+            ActionCount = learning.CountAction;
+            EpisodicAverage = learning.ExplorationFrequency;
+
+            Performance = "Act. Num. | Perform." + System.Environment.NewLine;
+
+            foreach (var item in learning.Episode)
+            {
+                Performance = Performance + item.MaxNumberAction + "          |           " + item.PerformanceNumber + System.Environment.NewLine;
+            }
         }
     }
 }

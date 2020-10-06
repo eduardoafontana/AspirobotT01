@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Environment\Element.cs" />
+    <Compile Include="Robot\Learning.cs" />
     <Compile Include="Robot\Explorer.cs" />
     <Compile Include="Robot\Actions.cs" />
     <Compile Include="Robot\Prevision.cs" />

@@ -27,8 +27,7 @@ namespace AspirobotT01
 
         private List<Intention> actionPlan = new List<Intention>();
 
-        private int countStepForReplan = 0;
-        private bool replan = false;
+        private Learning learning = new Learning();
 
         public Robot()
         {
@@ -47,6 +46,9 @@ namespace AspirobotT01
 
         internal void Execute()
         {
+            robotDisplay.UpdatePerformanceData(learning);
+            robotDisplay.UpdateDisplay();
+
             ObserveEnvironmentWithAllMySensors();
             UpdateMyState();
             ChooseAnAction();
@@ -55,7 +57,12 @@ namespace AspirobotT01
 
         private void ObserveEnvironmentWithAllMySensors()
         {
-            if (actionPlan.Count() > 0 && !replan)
+            if (actionPlan.Count() > 0)
+                return;
+
+            learning.MeasureWaitFrequency();
+
+            if (learning.HasToWait())
                 return;
 
             if (realTimeSensorPlace == null)
@@ -66,7 +73,10 @@ namespace AspirobotT01
 
         private void UpdateMyState()
         {
-            if (actionPlan.Count() > 0 && !replan)
+            if (actionPlan.Count() > 0)
+                return;
+
+            if (learning.HasToWait())
                 return;
 
             if (observedEnvironmentState == null)
@@ -77,7 +87,10 @@ namespace AspirobotT01
 
         private void ChooseAnAction()
         {
-            if (actionPlan.Count() > 0 && !replan)
+            if (actionPlan.Count() > 0)
+                return;
+
+            if (learning.HasToWait())
                 return;
 
             Explorer explorer = new Explorer();
@@ -86,11 +99,6 @@ namespace AspirobotT01
                 actionPlan = explorer.Execute_DeepSearchLimited_Algorithm(internalState);
             else
                 actionPlan = explorer.Execute_BestFirstSearch_Algorithm(internalState);
-
-            if (actionPlan.Count(p => p.Action != Actions.Aspire && p.Action != Actions.Collect) > Config.stepsToReplan)
-                countStepForReplan = 1;
-            else
-                countStepForReplan = 0;
         }
 
         private void JustDoIt()
@@ -116,27 +124,30 @@ namespace AspirobotT01
                     break;
                 case Actions.Aspire:
                     robotDisplay.Dirty++;
+                    learning.CountDirt++;
 
-                    if(observedEnvironmentState[internalState.PositionWhereRobotIs].jewel != null)
+                    if (observedEnvironmentState[internalState.PositionWhereRobotIs].jewel != null)
+                    {
                         robotDisplay.Penitence++;
+                        learning.CountPenitence++;
+                    }
 
                     RaiseAspireRobot(internalState.PositionWhereRobotIs);
                     break;
                 case Actions.Collect:
                     robotDisplay.Jewel++;
+                    learning.CountJewel++;
 
                     RaiseCollectRobot(internalState.PositionWhereRobotIs);
                     break;
             }
 
-            if (countStepForReplan >= 1)
-                countStepForReplan++;
-
-            replan = countStepForReplan > Config.countStepsToReplan;
-
             robotDisplay.Electricity++;
 
             robotDisplay.UpdateDisplay();
+
+            learning.CountElectricity++;
+            learning.MeasurePerformance();
 
             actionPlan.RemoveAt(0);
 
