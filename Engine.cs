@@ -19,7 +19,7 @@ namespace AspirobotT01
             environment = new Environment();
             robot = new Robot();
 
-            environment.AddRobotInEnvironment();
+            environment.sensor.AddRobotInEnvironment();
 
             environmentThread = new Thread(new ThreadStart(EnvironmentLoop));
             robotThread = new Thread(new ThreadStart(RobotLoop));

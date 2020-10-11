@@ -8,19 +8,12 @@ namespace AspirobotT01
 {
     public class Robot : IElement
     {
-        public delegate void MovingRobotActuator(Robot robot, int position);
-        public event MovingRobotActuator RaiseMoveRobot;
-
-        public delegate void AspiringRobotActuator(int position);
-        public event AspiringRobotActuator RaiseAspireRobot;
-
-        public delegate void CollectingRobotActuator(int position);
-        public event CollectingRobotActuator RaiseCollectRobot;
-
         public string ImagePath { get; set; }
         public RobotDisplay robotDisplay { get; set; }
+        public RobotActuator actuator = new RobotActuator();
 
-        private List<Place> realTimeSensorPlace;
+        private RobotSensor sensor;
+
         private List<Place> observedEnvironmentState;
 
         private InternalState internalState = new InternalState();
@@ -36,12 +29,7 @@ namespace AspirobotT01
 
             internalState.CreateInitialState();
 
-            Engine.environment.RaiseChangeEnvironment += new Environment.ChangingEnvironmentActuator(robotSensor_OnEnvironmentChange);
-        }
-
-        private void robotSensor_OnEnvironmentChange(List<Place> places)
-        {
-            realTimeSensorPlace = places;
+            sensor = new RobotSensor();
         }
 
         internal void Execute()
@@ -65,10 +53,10 @@ namespace AspirobotT01
             if (learning.HasToWait())
                 return;
 
-            if (realTimeSensorPlace == null)
+            if (sensor.RealTimeSensorPlace == null)
                 return;
 
-            observedEnvironmentState = realTimeSensorPlace;
+            observedEnvironmentState = sensor.RealTimeSensorPlace;
         }
 
         private void UpdateMyState()
@@ -111,16 +99,16 @@ namespace AspirobotT01
             switch (actionPlan.First().Action)
             {
                 case Actions.MoveUp:
-                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
+                    actuator.TriggerMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.MoveDown:
-                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
+                    actuator.TriggerMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.MoveLeft:
-                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
+                    actuator.TriggerMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.MoveRight:
-                    RaiseMoveRobot(this, internalState.PositionWhereRobotIs);
+                    actuator.TriggerMoveRobot(this, internalState.PositionWhereRobotIs);
                     break;
                 case Actions.Aspire:
                     robotDisplay.Dirty++;
@@ -132,13 +120,13 @@ namespace AspirobotT01
                         learning.CountPenitence++;
                     }
 
-                    RaiseAspireRobot(internalState.PositionWhereRobotIs);
+                    actuator.TriggerAspireRobot(internalState.PositionWhereRobotIs);
                     break;
                 case Actions.Collect:
                     robotDisplay.Jewel++;
                     learning.CountJewel++;
 
-                    RaiseCollectRobot(internalState.PositionWhereRobotIs);
+                    actuator.TriggerCollectRobot(internalState.PositionWhereRobotIs);
                     break;
             }
 

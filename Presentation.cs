@@ -26,7 +26,7 @@ namespace AspirobotT01
 
             Engine.Init();
 
-            Engine.environment.RaiseChangeEnvironment += new Environment.ChangingEnvironmentActuator(presentation_OnEnvironmentChange);
+            Engine.environment.actuator.RaiseChangeEnvironment += new EnvironmentActuator.ChangingEnvironmentActuator(presentation_OnEnvironmentChange);
             Engine.robot.robotDisplay.RaiseDisplayRobot += new RobotDisplay.DisplayingRobotActuator(presentation_OnRobotDisplayChange);
 
             Engine.Start();

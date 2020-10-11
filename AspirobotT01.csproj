@@ -47,12 +47,16 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Environment\Element.cs" />
+    <Compile Include="Environment\EnvironmentSensor.cs" />
+    <Compile Include="Environment\EnvironmentActuator.cs" />
     <Compile Include="Robot\Learning.cs" />
     <Compile Include="Robot\Explorer.cs" />
     <Compile Include="Robot\Actions.cs" />
     <Compile Include="Robot\Prevision.cs" />
     <Compile Include="Robot\Intention.cs" />
     <Compile Include="Robot\PrevisionAction.cs" />
+    <Compile Include="Robot\RobotActuator.cs" />
+    <Compile Include="Robot\RobotSensor.cs" />
     <Compile Include="Robot\State.cs" />
     <Compile Include="Robot\InternalState.cs" />
     <Compile Include="Robot\RobotDisplay.cs" />

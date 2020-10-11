@@ -8,12 +8,12 @@ namespace AspirobotT01
 {
     public class Environment
     {
-        public delegate void ChangingEnvironmentActuator(List<Place> places);
-        public event ChangingEnvironmentActuator RaiseChangeEnvironment;
-
         private List<Place> places = new List<Place>();
         private Random random = new Random();
         private int currentRandomPosition;
+
+        public EnvironmentSensor sensor;
+        public EnvironmentActuator actuator = new EnvironmentActuator();
 
         public Environment()
         {
@@ -21,13 +21,8 @@ namespace AspirobotT01
             {
                 places.Add(new Place());
             }
-        }
 
-        internal void AddRobotInEnvironment()
-        {
-            Engine.robot.RaiseMoveRobot += new Robot.MovingRobotActuator(environmentSensor_OnRobotMove);
-            Engine.robot.RaiseAspireRobot += new Robot.AspiringRobotActuator(environmentSensor_OnRobotAspire);
-            Engine.robot.RaiseCollectRobot += new Robot.CollectingRobotActuator(environmentSensor_OnRobotCollect);
+            sensor = new EnvironmentSensor(this);
         }
 
         internal void Execute()
@@ -45,7 +40,7 @@ namespace AspirobotT01
         {
             places[currentRandomPosition].jewel = new Jewel();
 
-            RaiseChangeEnvironment(places);
+            actuator.TriggerChangeEnvironment(places);
         }
 
         private bool ShouldThereBeANewLostJewel()
@@ -62,7 +57,7 @@ namespace AspirobotT01
         {
             places[currentRandomPosition].dirty = new Dirty();
 
-            RaiseChangeEnvironment(places);
+            actuator.TriggerChangeEnvironment(places);
         }
 
         private bool ShouldThereBeANewDirtySpace()
@@ -75,7 +70,7 @@ namespace AspirobotT01
             return false;
         }
 
-        private void environmentSensor_OnRobotMove(Robot robot, int position)
+        internal void ApplyRobotMove(Robot robot, int position)
         {
             int currentIndex = places.FindIndex(p => p.robot != null && p.robot.GetType() == robot.GetType());
 
@@ -84,22 +79,22 @@ namespace AspirobotT01
 
             places[position].robot = robot;
 
-            RaiseChangeEnvironment(places);
+            actuator.TriggerChangeEnvironment(places);
         }
 
-        private void environmentSensor_OnRobotAspire(int position)
+        internal void ApplyRobotAspire(int position)
         {
             places[position].dirty = null;
             places[position].jewel = null;
 
-            RaiseChangeEnvironment(places);
+            actuator.TriggerChangeEnvironment(places);
         }
 
-        private void environmentSensor_OnRobotCollect(int position)
+        internal void ApplyRobotCollect(int position)
         {
             places[position].jewel = null;
 
-            RaiseChangeEnvironment(places);
+            actuator.TriggerChangeEnvironment(places);
         }
     }
 }
